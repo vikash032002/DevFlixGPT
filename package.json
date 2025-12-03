@@ -1,0 +1,30 @@
+{
+  "name": "devflix-gpt",
+  "version": "1.0.0",
+  "description": "This is devflix project",
+  "scripts": {
+  "start": "parcel index.html",
+  "build": "parcel build index.html"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikash032002/DevFlixGPT.git"
+  },
+  "author": "Vikash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikash032002/DevFlixGPT/issues"
+  },
+  "homepage": "https://github.com/vikash032002/DevFlixGPT#readme",
+  "devDependencies": {
+    "parcel": "^2.16.1"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "dom": "^0.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "rreact": "^0.0.1-security",
+    "tailwindcss": "^4.1.17"
+  }
+}
