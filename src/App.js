@@ -1,9 +1,9 @@
-import './App.css';
+import Body from "./components/Body/Body";
 
 const App = () => {
     return (
       <>
-        <div className="text-4xl font-bold">DevFlix</div>
+        <Body />
       </>
     );
 };
