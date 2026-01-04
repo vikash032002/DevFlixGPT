@@ -18,3 +18,8 @@
 - DevFlixGPT
     - Search Bar
     - Movie Suggestion
+
+
+
+- CMD 
+  - deploy - firebase deploy

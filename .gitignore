@@ -1,3 +1,6 @@
 /node_modules
+/src/utils/firebase.js
 /.parcel-cache
 /dist
+/.env
+/.firebase
