@@ -2,10 +2,16 @@ import { useRef, useState } from "react";
 import Header from "../Header/Header";
 import devflixbg from "url:../../../public/img/devflix-bg.png";
 import { validate } from "../../utils/validate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword , signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../utils/firebase";
+import { useNavigate } from "react-router";
+import { addUser } from "../../utils/userSlice";
+import { useDispatch } from "react-redux";
+
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
   const  name = useRef();
@@ -41,7 +47,28 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+                    updateProfile(user, {
+                      displayName: name.current.value,
+                      photoURL:
+                        "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png",
+                    })
+                      .then(() => {
+                        const { uid, displayName, email, photoURL } = user;
+                        dispatch(
+                          addUser({
+                            displayName: displayName,
+                            email: email,
+                            photoURL: photoURL,
+                            uid: uid,
+                          })
+                        );
+                        navigate("/browser");
+                      })
+                      .catch((error) => {
+
+                      });
           console.log(user)
+          
           // ...
         })
         .catch((error) => {
@@ -51,6 +78,21 @@ const Login = () => {
           // ..
         });
     } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          navigate("/browser");
+          console.log(user)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(errorCode + "" + errorMessage);
+        });
       console.log("signIn")
     }
     
