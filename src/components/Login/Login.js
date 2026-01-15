@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../Header/Header";
 import devflixbg from "url:../../../public/img/devflix-bg.png";
 import { validate } from "../../utils/validate";
@@ -6,12 +6,13 @@ import { createUserWithEmailAndPassword , signInWithEmailAndPassword, updateProf
 import { auth } from "../../utils/firebase";
 import { useNavigate } from "react-router";
 import { addUser } from "../../utils/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
   const  name = useRef();
@@ -22,60 +23,55 @@ const Login = () => {
     setIsSignInForm(!isSignInForm);
   };
 
+  useEffect(() => {
+    if (user) navigate("/browser");
+  }, [user]);
+
   const handleClick = () => {
-    if(isSignInForm) {
-      const message = validate(
-        email.current.value,
-        password.current.value,
-      );
-      setErrorMsg(message)
-      
+    let message;
+
+    if (isSignInForm) {
+      message = validate(email.current.value, password.current.value);
     } else {
-      const message = validate(
+      message = validate(
         email.current.value,
         password.current.value,
         name.current.value
       );
-      setErrorMsg(message)
     }
 
-    if (errorMsg) return;
-    debugger
-    if(!isSignInForm){
-      debugger
-      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-                    updateProfile(user, {
-                      displayName: name.current.value,
-                      photoURL:
-                        "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png",
-                    })
-                      .then(() => {
-                        const { uid, displayName, email, photoURL } = user;
-                        dispatch(
-                          addUser({
-                            displayName: displayName,
-                            email: email,
-                            photoURL: photoURL,
-                            uid: uid,
-                          })
-                        );
-                        navigate("/browser");
-                      })
-                      .catch((error) => {
+    setErrorMsg(message);
 
-                      });
-          console.log(user)
-          
-          // ...
+    if (message) return;
+
+    if (!isSignInForm) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          return updateProfile(user, {
+            displayName: name.current.value,
+            photoURL:
+              "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png",
+          });
+        })
+        .then(() => {
+          const { uid, displayName, email, photoURL } = auth.currentUser;
+          dispatch(
+            addUser({
+              displayName: displayName,
+              email: email,
+              photoURL: photoURL,
+              uid: uid,
+            })
+          );
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMsg(errorCode+""+errorMessage)
-          // ..
+          setErrorMsg(error.code + " " + error.message);
         });
     } else {
       signInWithEmailAndPassword(
@@ -83,20 +79,14 @@ const Login = () => {
         email.current.value,
         password.current.value
       )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          navigate("/browser");
-          console.log(user)
+        .then(() => {
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMsg(errorCode + "" + errorMessage);
+          setErrorMsg(error.code + " " + error.message);
         });
-      console.log("signIn")
     }
-    
-  }
+  };
+
 
   return (
     <div className="relative min-h-screen flex flex-col">

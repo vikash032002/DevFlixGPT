@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../../utils/userSlice";
+import ProtectedRoute from "../../utils/protectedRoute";
 
 const Body = () => {
    const dispatch = useDispatch();
@@ -17,27 +18,31 @@ const Body = () => {
       },
       {
         path: "/browser",
-        element: user ? <Browser /> : <Navigate to="/" />,
+        element: (
+          <ProtectedRoute>
+            <Browser />
+          </ProtectedRoute>
+        ),
       },
     ]);
     
     useEffect(() => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          const {uid, displayName, email, photoURL} = user;
+          const { uid, displayName, email, photoURL } = user;
           dispatch(
             addUser({
-              displayName:displayName,
-              email:email,
-              photoURL:photoURL,
-              uid:uid,
+              displayName: displayName,
+              email: email,
+              photoURL: photoURL,
+              uid: uid,
             })
           );
         } else {
           dispatch(removeUser());
         }
       });
-    },[])
+    }, [addUser,removeUser]);
     
   return ( 
   <div>
