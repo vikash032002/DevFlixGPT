@@ -27,7 +27,7 @@ const Body = () => {
     ]);
     
     useEffect(() => {
-      onAuthStateChanged(auth, (user) => {
+     const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           const { uid, displayName, email, photoURL } = user;
           dispatch(
@@ -42,6 +42,8 @@ const Body = () => {
           dispatch(removeUser());
         }
       });
+
+      return () => unsubscribe
     }, [addUser,removeUser]);
     
   return ( 

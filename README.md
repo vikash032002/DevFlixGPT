@@ -10,6 +10,8 @@
    -form validation(useRefHook) 
    -Created redux store with userSlice
 - Browser after authentication
+     -fetch movies list from tmdb api setup 
+     create a redux for movies and created a custom hook to fetch the movioes
      -Header
      -Main Movie
           -Trailer in Background
