@@ -1,8 +1,10 @@
-import useNowPlayingMovies from "../../hooks/useNowPlayingMovies";
+import useNowPlayingVideos from "../../hooks/useNowPlayingVideos";
 import Header from "../Header/Header";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 
 const Browser = () => {
-  useNowPlayingMovies();
+  useNowPlayingVideos();
 
   return (
     <div>
@@ -13,6 +15,8 @@ const Browser = () => {
           - secondary contaner
             -movies list* n
             - card*n*/}
+      <MainContainer />
+      <SecondaryContainer />
     </div>
   );
 };

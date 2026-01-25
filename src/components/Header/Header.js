@@ -26,11 +26,11 @@ return (
       DevFLix
     </div>
     {user && (
-      <div className="w-40 px-3 justify-center align-middle items-center bg-gradient-to-b from-black flex">
+      <div className="w-50 px-3 justify-center align-middle items-center bg-gradient-to-b from-black flex">
         <img src={user.photoURL} className="w-10 h-10 rounded-full m-2" />
         <button
           onClick={signOutM}
-          className="bg-red-600 text-white rounded-xl p-1 text-sm"
+          className="bg-red-600 text-white rounded-xl p-1 text-sm mr-3"
         >
           Sign Out
         </button>
