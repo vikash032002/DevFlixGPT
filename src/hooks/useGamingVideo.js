@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addNowPlayingVideos } from "../utils/videoSlice";
+import { addGamingVideos } from "../utils/videoSlice";
 import { useEffect } from "react";
 
 const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
@@ -92,24 +92,23 @@ const FALLBACK_VIDEO = [
   },
 ];
 
-const useNowPlayingVideos = () => {
+const useGamingVideos = () => {
   const dispatch = useDispatch();
 
-  const getNowPlayingVideos = async () => {
+  const getGamingVideos = async () => {
     try {
       const res = await fetch(
         `https://www.googleapis.com/youtube/v3/videos
           ?part=snippet
           &chart=mostPopular
           &regionCode=IN
+          &videoCategoryId=20
           &maxResults=10
           &key=${YOUTUBE_API_KEY}`.replace(/\s+/g, ""),
       );
 
-
-
       const json = await res.json();
-      debugger
+      debugger;
       if (json.error) {
         throw new Error(json.error.message);
       }
@@ -121,17 +120,17 @@ const useNowPlayingVideos = () => {
         thumbnail: item.snippet.thumbnails.high.url,
       }));
 
-      dispatch(addNowPlayingVideos(videos));
+      dispatch(addGamingVideos(videos));
     } catch (error) {
       // console.error("YouTube API failed:", error.message);
 
-      dispatch(addNowPlayingVideos(FALLBACK_VIDEO));
+      dispatch(addGamingVideos(FALLBACK_VIDEO));
     }
   };
 
   useEffect(() => {
-    getNowPlayingVideos();
+    getGamingVideos();
   }, []);
 };
 
-export default useNowPlayingVideos;
+export default useGamingVideos;

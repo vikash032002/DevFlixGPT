@@ -28,8 +28,8 @@ const MainContainer = () => {
 
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
 
-      <div className="relative z-10 text-white px-16 pt-[15%] max-w-xl">
-        <h1 className="text-4xl font-extrabold mb-4">{title}</h1>
+      <div className="relative z-10 text-white px-16 pt-[11%] max-w-xl">
+        <h1 className="text-2xl font-extrabold mb-4">{title}</h1>
         <p className="text-sm mb-6 line-clamp-3 text-gray-200">{description}</p>
 
         <div className="flex gap-4">

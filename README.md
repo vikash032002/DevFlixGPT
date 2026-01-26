@@ -2,6 +2,10 @@
 
 - created react app using parcel from scratch 
 - taiwind configured 
+- login/signup page 
+- created a youtube api and get the now playing data
+- created the main contnet of browser page 
+
 
 # Features
 - Login/sign Up

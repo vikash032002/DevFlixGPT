@@ -9,7 +9,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(user)
   const signOutM = () => {
     signOut(auth)
       .then(() => {
